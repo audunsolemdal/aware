@@ -1,7 +1,6 @@
 import re
 
 import requests
-
 from config import Config
 
 regex = re.compile(r'\x1B\[[0-?]*[ -/]*[@-~]')
@@ -14,7 +13,7 @@ def strip_ansi_escape(text: str) -> str:
 
 def get_container_logs(instance: str) -> [str]:
     parameters = {
-        "query": f"{{instance=\"{instance}\"}}",
+        "query": f"{{pod=\"{instance}\"}}",
         "limit": 20,
         "direction": "backward"
     }
