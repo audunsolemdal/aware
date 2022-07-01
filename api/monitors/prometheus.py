@@ -1,6 +1,6 @@
 import requests
 from config import Config
-from loggers.loki import get_container_logs
+from loggers.loki import get_container_logs, get_job_logs
 from utils import (dead_mans_switch, get_path, local_to_epoch_time,
                    truncate_string)
 
@@ -25,7 +25,18 @@ def get_prometheus_events():
         annotation = event.get("annotations")
         message = annotation.get("message") if "message" in annotation else annotation.get("description")
         pod = event["labels"].get("pod")
-        logs = get_container_logs(pod)if pod and Config.loki_api else ["No logs - only container logs are currently supported..."]
+
+        container_logs = get_container_logs(pod)if pod and Config.loki_api else ["No logs"]
+        if container_logs != "No logs":
+            log_to_display = container_logs
+        else:
+            job = event["labels"].get("job")
+            job_logs = get_job_logs(job)if job and Config.loki_api else ["No logs"]
+            if job_logs != "No logs":
+                log_to_display = job_logs
+            else:
+                job_logs = "No logs found, only pods and jobs are currently supported"
+
         events.append({
             'alertname': get_path(event, 'labels', 'alertname'),
             'namespace': get_path(event, 'labels', 'namespace'),
@@ -33,7 +44,7 @@ def get_prometheus_events():
             'message': truncate_string(message),
             'triggered': local_to_epoch_time(event['activeAt']),
             "source": "Prometheus",
-            "logs": logs
+            "logs": log_to_display
         })
 
     return events
