@@ -9,7 +9,7 @@ services:
       - web
     build: api
     container_name: aware
-    image: sdpequinor/aware-api:4.1.2
+    image: sdpequinor/aware-api:4.3.0
     volumes:
       - ./api:/src
     environment:
