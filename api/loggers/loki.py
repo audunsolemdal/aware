@@ -30,7 +30,7 @@ def get_container_logs(instance: str) -> [str]:
             for line in result[0]["values"]
         ]
     else:
-        return [f"No logs for instance {instance} within the time frame..."]
+        return [f"No logs for pod {instance} within the time frame..."]
 
 def get_job_logs(instance: str) -> [str]:
     parameters = {
@@ -51,4 +51,4 @@ def get_job_logs(instance: str) -> [str]:
             for line in result[0]["values"]
         ]
     else:
-        return [f"No logs for instance {instance} within the time frame..."]
+        return [f"No logs for job {instance} within the time frame..."]

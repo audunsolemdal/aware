@@ -30,7 +30,9 @@ def get_prometheus_events():
         if container_logs != "No logs":
             log_to_display = container_logs
         else:
-            job = event["labels"].get("job")
+            job_name = event["labels"].get("job_name").rsplit("-", 1)[0] # Suffix not in logs
+            ns = event["labels"].get("namespace")
+            job = ns + "/" + job_name
             job_logs = get_job_logs(job)if job and Config.loki_api else ["No logs"]
             if job_logs != "No logs":
                 log_to_display = job_logs
