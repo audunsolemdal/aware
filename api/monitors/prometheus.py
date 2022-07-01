@@ -27,8 +27,8 @@ def get_prometheus_events():
         pod = event["labels"].get("pod")
 
         container_logs = get_container_logs(pod)if pod and Config.loki_api else ["No logs"]
-        log_to_display = "Default value from aware."
-        if "No logs" not in container_logs:
+        log_to_display = ["Default value from aware."]
+        if "No logs" not in container_logs[0]:
             log_to_display = container_logs
         else:
             job_name = event["labels"].get("job_name")
@@ -38,10 +38,10 @@ def get_prometheus_events():
                 jobsplit = job_name.rsplit("-", 1)[0] # Suffix not in Loki logs
                 job = ns + "/" + jobsplit
                 job_logs = get_job_logs(job)if job and Config.loki_api else ["No logs"]
-                if "No logs" not in job_logs:
+                if "No logs" not in job_logs[0]:
                     log_to_display = job_logs
             else:
-                log_to_display = "No logs found, only pods and jobs are currently supported"
+                log_to_display = ["No logs found, only pods and jobs are currently supported"]
 
         events.append({
             'alertname': get_path(event, 'labels', 'alertname'),
