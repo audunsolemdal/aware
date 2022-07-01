@@ -27,14 +27,14 @@ def get_prometheus_events():
         pod = event["labels"].get("pod")
 
         container_logs = get_container_logs(pod)if pod and Config.loki_api else ["No logs"]
-        if container_logs != "No logs":
+        if "No logs" not in container_logs:
             log_to_display = container_logs
         else:
             job_name = event["labels"].get("job_name").rsplit("-", 1)[0] # Suffix not in logs
             ns = event["labels"].get("namespace")
             job = ns + "/" + job_name
             job_logs = get_job_logs(job)if job and Config.loki_api else ["No logs"]
-            if job_logs != "No logs":
+            if "No logs" not in job_logs:
                 log_to_display = job_logs
             else:
                 job_logs = "No logs found, only pods and jobs are currently supported"
