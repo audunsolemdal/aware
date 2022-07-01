@@ -1,19 +1,15 @@
 version: "3"
 services:
-  nginx:
-    restart: unless-stopped
-    build: proxy
-    ports:
-      - "80:80"
-
   api:
+    ports:
+      - "8080:5000"
     restart: unless-stopped
     depends_on:
       - nginx
       - web
     build: api
     container_name: aware
-    image: sdpequinor/aware-api:4.1.1
+    image: sdpequinor/aware-api:4.1.2
     volumes:
       - ./api:/src
     environment:
@@ -27,12 +23,3 @@ services:
       #        EXPORT_SECRET: ${EXPORT_SECRET}
       LOKI_PASSWD: ${LOKI_PASSWD}
   #        IGNORE_PROMETHEUS_ALERTS: "TargetDown,DeadMansSwitch,KubeAPIDown,CoreDNSDown,KubeControllerManagerDown,KubeSchedulerDown,Watchdog"
-
-  web:
-    restart: unless-stopped
-    image: sdpequinor/aware-web:latest
-    build: web
-    command: "yarn start"
-    stdin_open: true
-    volumes:
-      - ./web/src/:/code/src

@@ -1,8 +1,8 @@
 import requests
-
 from config import Config
 from loggers.loki import get_container_logs
-from utils import dead_mans_switch, get_path, local_to_epoch_time, truncate_string
+from utils import (dead_mans_switch, get_path, local_to_epoch_time,
+                   truncate_string)
 
 ignore_alert_list = Config.ignore_alert_list
 
@@ -25,7 +25,7 @@ def get_prometheus_events():
         annotation = event.get("annotations")
         message = annotation.get("message") if "message" in annotation else annotation.get("description")
         pod = event["labels"].get("pod")
-        logs = get_container_logs(pod)if pod and Config.loki_api else ["No logs..."]
+        logs = get_container_logs(pod)if pod and Config.loki_api else ["No logs - only container logs are currently supported..."]
         events.append({
             'alertname': get_path(event, 'labels', 'alertname'),
             'namespace': get_path(event, 'labels', 'namespace'),
