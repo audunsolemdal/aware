@@ -21,5 +21,6 @@ services:
       #        IMPORT_URLS: "https://aware.sdpaks.equinor.com/api/exports"
       SENSU_KEY: ${SENSU_KEY}
       #        EXPORT_SECRET: ${EXPORT_SECRET}
+      # trigger workflow
       LOKI_PASSWD: ${LOKI_PASSWD}
   #        IGNORE_PROMETHEUS_ALERTS: "TargetDown,DeadMansSwitch,KubeAPIDown,CoreDNSDown,KubeControllerManagerDown,KubeSchedulerDown,Watchdog"
