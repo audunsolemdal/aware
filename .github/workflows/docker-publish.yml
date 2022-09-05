@@ -67,7 +67,8 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ env.REGISTRY }}/${{ env.REPO_NAME }}${{ env.IMAGE_SUFFIX }}
+          images: |
+            ${{ env.REGISTRY }}/${{ env.REPO_NAME }}${{ env.IMAGE_SUFFIX }}
           tags: |
             type=sha
             type=raw,value=${{ steps.env.outputs.tag }}
@@ -81,6 +82,7 @@ jobs:
           context: ${{ env.BUILD_CONTEXT }}
           file: ${{ steps.env.outputs.DOCKERFILE_PATH }}
           push: ${{ github.event_name != 'pull_request' }}
+          load: ${{ github.event_name == 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
