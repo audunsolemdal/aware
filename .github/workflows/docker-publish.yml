@@ -10,7 +10,7 @@ env:
   REGISTRY: ghcr.io
   REPO_NAME: ${{ github.repository }}
   IMAGE_SUFFIX: "/api" # change to suit your image name
-  BUILD_CONTEXT: "/api" # change me to fit your image path
+  BUILD_CONTEXT: "./api" # change me to fit your image path
   DOCKERFILE_PATH: "default" # change me if needed
 
 jobs:
