@@ -76,7 +76,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: ${{ env.BUILD_CONTEXT }}
-          dockerfile-path: ${{ steps.env.outputs.DOCKERFILE_PATH }}
+          file: ${{ steps.env.outputs.DOCKERFILE_PATH }}
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
