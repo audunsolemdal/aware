@@ -67,7 +67,9 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ env.REGISTRY }}/${{ env.REPO_NAME }}${{ env.IMAGE_SUFFIX }}
+          images: |
+            ${{ env.REGISTRY }}/${{ env.REPO_NAME }}${{ env.IMAGE_SUFFIX }}
+            ${{ env.REPO_NAME }}${{ env.IMAGE_SUFFIX }}
           tags: |
             type=sha
             type=raw,value=${{ steps.env.outputs.tag }}
@@ -94,7 +96,7 @@ jobs:
         id: scan
         uses: Azure/container-scan@v0.1
         with:
-          image-name: ${{ env.REGISTRY }}/${{ env.REPO_NAME }}${{ env.IMAGE_SUFFIX }}:${{ steps.env.outputs.tag }}
+          image-name: ${{ env.REPO_NAME }}${{ env.IMAGE_SUFFIX }}:${{ steps.env.outputs.tag }}
           severity-threshold: "HIGH"
 
       # Install the cosign tool except on PR
