@@ -88,6 +88,9 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
+      - run: docker image ls
+        shell: bash
+
       - name: Container image scan
         if: github.event_name == 'pull_request'
         env:
