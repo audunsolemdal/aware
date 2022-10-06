@@ -68,10 +68,10 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: |
-            ${{ env.REGISTRY }}/${{ env.REPO_NAME }}${{ env.IMAGE_SUFFIX }}
+            ${{ env.REGISTRY }}/${{ env.REPO_NAME }}
           tags: |
-            type=sha
             type=raw,value=${{ steps.env.outputs.tag }}
+            type=raw,value=latest
 
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
