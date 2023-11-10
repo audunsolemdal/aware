@@ -1,4 +1,4 @@
-FROM node:12-alpine
+FROM node:21-alpine
 RUN npm install -g serve
 WORKDIR /code
 
